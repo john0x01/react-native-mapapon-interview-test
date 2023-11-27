@@ -4,16 +4,25 @@ import React from 'react'
 import HomeScreen from './src/app/Home'
 import WelcomeScreen from './src/app/Welcome'
 
-const Stack = createNativeStackNavigator()
+export type RootStackParamList = {
+  Welcome: undefined
+  Home: undefined
+  Item: { id: string } | undefined
+}
+
+const Stack = createNativeStackNavigator<RootStackParamList>()
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='welcome' screenOptions={{
-        headerShown: false
-      }}>
-        <Stack.Screen name="welcome" component={WelcomeScreen} />
-        <Stack.Screen name="home" component={HomeScreen} />
+      <Stack.Navigator
+        initialRouteName="Welcome"
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="Welcome" component={WelcomeScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )
