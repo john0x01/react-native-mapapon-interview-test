@@ -16,14 +16,29 @@ type InsertPostType = {
 
 interface PostData {
   posts: PostType[] | null
+  currentPost: PostType | null
 
-  insertPost: ({ ...args }: InsertPostType) => void
+  setCurrentPost: (id: number) => void
+  insertPost: ({ ...args }: InsertPostType) => Promise<void>
   fetchPosts: () => Promise<void>
 }
 
 export const usePost = create<PostData>((set, get) => {
   return {
     posts: null,
+    currentPost: null,
+
+    setCurrentPost: (id) => {
+      const posts = get().posts
+      if (!posts) return
+
+      const current = posts.find((post) => post.id === id)
+      if (!current) return
+
+      set({
+        currentPost: current,
+      })
+    },
 
     fetchPosts: async () => {
       console.log('fetch')
@@ -38,19 +53,26 @@ export const usePost = create<PostData>((set, get) => {
         console.log(err)
       }
     },
-    insertPost: ({ body, title, userId }) => {
-      const posts = get().posts || []
+    insertPost: async ({ body, title, userId }) => {
+      try {
+        const posts = get().posts || []
 
-      const newPost: PostType = {
-        id: new Date().getTime(),
-        body,
-        title,
-        userId,
+        const newPost: PostType = {
+          id: new Date().getTime(),
+          body,
+          title,
+          userId,
+        }
+
+        await axios.post('https://jsonplaceholder.typicode.com/posts', {
+          newPost,
+        })
+        set({
+          posts: [newPost, ...posts],
+        })
+      } catch (err) {
+        console.log(err)
       }
-      console.log('Post inserted successfully')
-      set({
-        posts: [newPost, ...posts],
-      })
     },
   }
 })

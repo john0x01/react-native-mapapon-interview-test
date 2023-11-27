@@ -1,7 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Text } from 'react-native'
+import { useEffect, useState } from 'react'
+import { ActivityIndicator } from 'react-native'
 import { RootStackParamList } from '../../../App'
-import { Container } from './styles'
+import { PostContent } from '../../components/PostCard/styles'
+import { usePost } from '../../store/post'
+import { Container, Line, Title } from './styles'
 
 type PostScreenProps = NativeStackScreenProps<RootStackParamList, 'Post'>
 
@@ -10,11 +13,29 @@ type Params = {
 }
 
 export default function PostScreen({ route }: PostScreenProps) {
+  const { setCurrentPost, currentPost } = usePost()
   const { id } = route.params as Params
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    setCurrentPost(Number(id))
+    setIsLoading(false)
+  }, [])
+
+  if (isLoading || !currentPost) {
+    return (
+      <Container>
+        <ActivityIndicator />
+      </Container>
+    )
+  }
 
   return (
     <Container>
-      <Text>Post {id}</Text>
+      <Title>{currentPost.title}</Title>
+      <PostContent>
+        <Line>{currentPost.body}</Line>
+      </PostContent>
     </Container>
   )
 }

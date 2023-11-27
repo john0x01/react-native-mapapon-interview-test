@@ -51,8 +51,8 @@ export default function NewPostScreen({ navigation }: NewPostScreenProps) {
     return true
   }
 
-  function handleNewPost(data: NewPostData) {
-    insertPost({
+  async function handleNewPost(data: NewPostData) {
+    await insertPost({
       body: data.body,
       title: data.title,
       userId: 1,
