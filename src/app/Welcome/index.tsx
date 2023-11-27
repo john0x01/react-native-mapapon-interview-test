@@ -19,10 +19,7 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
         <Button
           variant="transparent"
           size="md"
-          onPress={() => {
-            console.log('Press')
-            navigation.navigate('Home')
-          }}
+          onPress={() => navigation.navigate('Home')}
         >
           Entrar
         </Button>
