@@ -2,11 +2,14 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { ImageBackground } from 'react-native'
 import { RootStackParamList } from '../../../App'
 import { Button } from '../../components/Button'
+import { usePost } from '../../store/post'
 import { ContentArea, Title } from './styles'
 
 type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>
 
 export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
+  const { fetchPosts } = usePost()
+
   return (
     <ImageBackground
       source={require('../../../assets/welcome-bg.jpg')}
@@ -19,7 +22,10 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
         <Button
           variant="transparent"
           size="md"
-          onPress={() => navigation.navigate('Home')}
+          onPress={async () => {
+            await fetchPosts()
+            navigation.navigate('Home')
+          }}
         >
           Entrar
         </Button>
