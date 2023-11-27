@@ -22,6 +22,7 @@ export const Title = styled.Text`
 export const Body = styled.Text`
   font-size: 10px;
   color: #a9a9a9;
+  overflow: hidden;
 `
 
 export const ShowPostButton = styled.TouchableOpacity`

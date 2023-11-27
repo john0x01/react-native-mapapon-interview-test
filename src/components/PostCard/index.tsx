@@ -26,7 +26,7 @@ export function PostCard({
     <Container>
       <PostContent>
         <Title>{maxLengthText(title, 53)}</Title>
-        <Body>{maxLengthText(body, 153)}</Body>
+        <Body>{maxLengthText(body, 103)}</Body>
       </PostContent>
       <ShowPostButton onPress={() => handleClick(String(id))}>
         <DotsThree size={32} />
